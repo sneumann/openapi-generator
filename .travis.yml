@@ -231,7 +231,7 @@ after_success:
       docker buildx create --use;
       docker buildx build --platform linux/amd64,linux/arm64 --label=org.opencontainers.image.created=$build_date --label=org.opencontainers.image.title=openapi-generator-cli --label=org.opencontainers.image.revision=$TRAVIS_COMMIT --label=org.opencontainers.image.version=$cli_version -t $DOCKER_CODEGEN_CLI_IMAGE_NAME ./modules/openapi-generator-cli;
       if [ ! -z "$TRAVIS_TAG" ]; then
-          docker buildx build --platform linux/amd64,linux/arm64 --label=org.opencontainers.image.created=$build_date --label=org.opencontainers.image.title=openapi-generator-cli --label=org.opencontainers.image.revision=$TRAVIS_COMMIT --label=org.opencontainers.image.version=$cli_version -t $DOCKER_CODEGEN_CLI_IMAGE_NAME:latest -t $DOCKER_CODEGEN_CLI_IMAGE_NAME:$TRAVIS_TAG -t $DOCKER_CODEGEN_CLI_IMAGE_NAME ./modules/openapi-generator-cli;
+          docker buildx build --platform linux/amd64,linux/arm64 --label=org.opencontainers.image.created=$build_date --label=org.opencontainers.image.title=openapi-generator-cli --label=org.opencontainers.image.revision=$TRAVIS_COMMIT --label=org.opencontainers.image.version=$cli_version -t $DOCKER_CODEGEN_CLI_IMAGE_NAME:$TRAVIS_TAG -t $DOCKER_CODEGEN_CLI_IMAGE_NAME ./modules/openapi-generator-cli;
           echo "Built and tagged $DOCKER_CODEGEN_CLI_IMAGE_NAME with $TRAVIS_TAG";
       fi;
       if [ "$TRAVIS_BRANCH" = "master" ] && [ "$TRAVIS_PULL_REQUEST" = "false" ]; then
