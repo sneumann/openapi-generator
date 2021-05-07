@@ -206,6 +206,7 @@ after_success:
     fi;
   ## docker: build and push openapi-generator-online to DockerHub
   - export TRAVIS_TAG="v5.1.1"
+  - export TRAVIS_BRANCH="master"
   - if [ $DOCKER_HUB_USERNAME ]; then
       echo "$DOCKER_HUB_PASSWORD" | docker login --username=$DOCKER_HUB_USERNAME --password-stdin;
       export cli_version=$(\mvn -o org.apache.maven.plugins:maven-help-plugin:2.1.1:evaluate -Dexpression=project.version | grep -v '\[');
@@ -217,7 +218,7 @@ after_success:
       fi;
       if [ ! -z "$TRAVIS_TAG" ] && [ "$TRAVIS_BRANCH" = "master" ] && [ "$TRAVIS_PULL_REQUEST" = "false" ]; then
           docker buildx build --push --platform linux/amd64,linux/arm64 --label=org.opencontainers.image.created=$build_date --label=org.opencontainers.image.title=openapi-generator-online --label=org.opencontainers.image.revision=$TRAVIS_COMMIT --label=org.opencontainers.image.version=$cli_version -t $DOCKER_GENERATOR_IMAGE_NAME ./modules/openapi-generator-online;
-          echo "Pushed to $DOCKER_GENERATOR_IMAGE_NAME for master";
+          echo "Stable release $TRAVIS_TAG published for $DOCKER_GENERATOR_IMAGE_NAME";
       fi;
     fi;
   ## docker: build cli image and push to Docker Hub
@@ -234,7 +235,7 @@ after_success:
       fi;
       if [ ! -z "$TRAVIS_TAG" ] && [ "$TRAVIS_BRANCH" = "master" ] && [ "$TRAVIS_PULL_REQUEST" = "false" ]; then
           docker buildx build --push --platform linux/amd64,linux/arm64 --label=org.opencontainers.image.created=$build_date --label=org.opencontainers.image.title=openapi-generator-cli --label=org.opencontainers.image.revision=$TRAVIS_COMMIT --label=org.opencontainers.image.version=$cli_version -t $DOCKER_CODEGEN_CLI_IMAGE_NAME ./modules/openapi-generator-cli;
-          echo "Pushed to $DOCKER_CODEGEN_CLI_IMAGE_NAME";
+          echo "Stable release $TRAVIS_TAG published for $DOCKER_CODEGEN_CLI_IMAGE_NAME";
       fi;
     fi;
   ## publish latest website, variables below are secure environment variables which are unavailable to PRs from forks.
