@@ -175,9 +175,9 @@ script:
   #- mvn -e --no-snapshot-updates --quiet --batch-mode --show-version verify -Psamples -Dorg.slf4j.simpleLogger.defaultLogLevel=error
 after_success:
   # push to maven repo
-  - export TRAVIS_BRANCH=master
-  - export TRAVIS_TAG=v5.1.1
   - if [ $SONATYPE_USERNAME ] && [ "$TRAVIS_PULL_REQUEST" == "false" ]; then
+      export TRAVIS_BRANCH=master;
+      export TRAVIS_TAG=v5.1.1;
       if [ "$TRAVIS_BRANCH" = "master" ] && [ -n $TRAVIS_TAG ]; then
         #echo "Publishing from branch $TRAVIS_BRANCH";
         #mvn clean deploy -DskipTests=true -B -U -P release --settings CI/settings.xml;
